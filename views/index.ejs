@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <!-- <a href="/buy?type=pull&color=rouge">Acheter un pull over rouge</a> -->
+    <form action="/buy" method="post">
+      <input type="text" name="type" value="">
+      <input type="text" name="color" value="">
+      <button>Acheter un pull rouge</button>
+    </form>
+  </body>
+</html>
