@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('testexpress:server');
 var http = require('http');
+const messages = require('../models/messages');
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +20,26 @@ app.set('port', port);
  * Create HTTP server.
  */
 
- var server = http.createServer(app);
+var server = http.createServer(app);
+
+const options = {
+  cors: {
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["myChat-header"],
+    credentials: true
+  }
+};
+
+var io = require('socket.io')(server, options);
+
+io.on('connection', function (socket) {
+  console.log('connection au websocket');
+  socket.on('newMessageFromFront', function (message) {
+    console.log(message);
+    io.emit('sendMessageToAll', message)
+  })
+})
 
 /**
  * Listen on provided port, on all network interfaces.

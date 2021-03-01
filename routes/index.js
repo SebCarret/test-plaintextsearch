@@ -5,7 +5,7 @@ var request = require('sync-request');
 const messagesModel = require('../models/messages');
 const coursesModel = require('../models/courses');
 
-const content = [
+var content = [
   {
     title: "Les bases du développement web",
     content: "Il faut commencer par HTML, CSS et JavaScript"
@@ -24,6 +24,30 @@ const content = [
 router.get('/', function(req, res, next) {
   res.render('index', { title: '1er projet Express' });
 });
+
+router.get('/content', (req, res) => {
+  res.json(content)
+});
+
+router.delete('/delete-content', (req, res) => {
+  content.splice(req.query.position, 1);
+  res.json(content)
+});
+
+router.put('/modify-content/:position/:newTitle', (req, res) => {
+  content[req.params.position].title = req.params.newTitle;
+  res.json(content)
+})
+
+
+router.post('/add-content', (req, res) => {
+  content.push({
+    title: req.body.title,
+    content: req.body.content
+  });
+
+  res.json(content)
+})
 
 // requêtes pour la collection Messages
 router.post('/insert-db', async (req, res) => {
